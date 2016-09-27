@@ -16,7 +16,7 @@
 
 - name: ensure download location exists
   file:
-    src: "{{ ansible_env.HOME }}/Downloads/"
+    path: "{{ ansible_env.HOME }}/Downloads/"
     state: directory
   when: installed.rc == 1
 
