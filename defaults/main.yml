@@ -1,0 +1,7 @@
+---
+# author: Eric Crosson
+# date: 2016-09-27
+#
+# Contains default variable values for pandoc role
+
+pandoc_version: 1.17.2

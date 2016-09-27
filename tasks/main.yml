@@ -1,0 +1,32 @@
+---
+# author: Eric Crosson
+# date: 2016-09-27
+#
+# Install pandoc if not already installed.
+#
+# This role will not upgrade pandoc. If you wish to use this role to install a
+# later version than you currently have installed, first uninstall your version
+# and then run this role.
+
+- name: check if pandoc is installed
+  command: dpkg-query -W pandoc
+  register: installed
+  failed_when: installed.rc > 1
+  changed_when: no
+
+- name: ensure download location exists
+  file:
+    src: "{{ ansible_env.HOME }}/Downloads/"
+    state: directory
+  when: installed.rc == 1
+
+- name: download pandoc .deb
+  get_url:
+    url: "https://github.com/jgm/pandoc/releases/download/{{pandoc-version}}/pandoc-{{pandoc-version}}-1-amd64.deb"
+    dest: "{{ ansible_env.HOME }}/Downloads/pandoc-{{pandoc-version}}.deb"
+  when: installed.rc == 1 
+
+- name: install pandoc
+  apt:
+    deb: "{{ ansible_env.HOME }}/Downloads/pandoc-{{pandoc-version}}.deb"
+  when: installed.rc == 1
