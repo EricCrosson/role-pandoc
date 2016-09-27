@@ -22,11 +22,13 @@
 
 - name: download pandoc .deb
   get_url:
-    url: "https://github.com/jgm/pandoc/releases/download/{{pandoc-version}}/pandoc-{{pandoc-version}}-1-amd64.deb"
-    dest: "{{ ansible_env.HOME }}/Downloads/pandoc-{{pandoc-version}}.deb"
+    url: "https://github.com/jgm/pandoc/releases/download/{{pandoc_version}}/pandoc-{{pandoc_version}}-1-amd64.deb"
+    dest: "{{ ansible_env.HOME }}/Downloads/pandoc-{{pandoc_version}}.deb"
   when: installed.rc == 1 
 
 - name: install pandoc
+  become: yes
+  become_user: root
   apt:
-    deb: "{{ ansible_env.HOME }}/Downloads/pandoc-{{pandoc-version}}.deb"
+    deb: "{{ ansible_env.HOME }}/Downloads/pandoc-{{pandoc_version}}.deb"
   when: installed.rc == 1
